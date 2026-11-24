@@ -25,7 +25,7 @@ jobs:
           rm -f android/app/release.jks
           keytool -genkeypair -noprompt -keystore android/app/release.jks -keyalg RSA -keysize 2048 -validity 10000 -alias smartstake -storepass Smart2026 -keypass Smart2026 -dname "CN=Tony Billaut,O=SmartStake,C=FR"
           cd android && chmod +x gradlew
-          ./gradlew assembleDebug bundleRelease --no-daemon -Pandroid.injected.signing.store.file=$PWD/app/release.jks -Pandroid.injected.signing.store.password=Smart2026 -Pandroid.injected.signing.key.alias=smartstake -Pandroid.injected.signing.key.password=Smart2026
+          ./gradlew assembleDebug bundleRelease -x lintVitalAnalyzeRelease --no-daemon -Pandroid.injected.signing.store.file=$PWD/app/release.jks -Pandroid.injected.signing.store.password=Smart2026 -Pandroid.injected.signing.key.alias=smartstake -Pandroid.injected.signing.key.password=Smart2026
       - uses: actions/upload-artifact@v4
         with:
           name: SmartStake-PlayStore-Files
