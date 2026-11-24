@@ -22,6 +22,7 @@ jobs:
           npx capacitor-assets generate --android || true
           sed -i 's|"webDir": "www"|"webDir": "www", "server": {"url": "https://streamlit.app"}|' capacitor.config.json
           npx cap sync android
+          echo 'dependencies { implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.22")) }' >> android/app/build.gradle
           rm -f android/app/release.jks
           keytool -genkeypair -noprompt -keystore android/app/release.jks -keyalg RSA -keysize 2048 -validity 10000 -alias smartstake -storepass Smart2026 -keypass Smart2026 -dname "CN=Tony Billaut,O=SmartStake,C=FR"
           cd android && chmod +x gradlew
