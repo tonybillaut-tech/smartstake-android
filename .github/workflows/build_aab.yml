@@ -14,15 +14,14 @@ jobs:
           java-version: 21
       - run: |
           mkdir -p www assets
-          echo '<html><body style="background:#064e3b"></body></html>' > www/index.html
+          cat << 'EOF' > www/index.html
+          <!DOCTYPE html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{margin:0;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#064e3b;color:#fff;font-family:sans-serif}button{background:#16a34a;color:#fff;border:none;padding:14px 28px;border-radius:12px;font-size:16px;font-weight:bold;margin-top:16px}</style></head><body><h2>⚽ SmartStake</h2><button onclick="openApp()">Lancer l'application</button><script>function openApp(){window.open('https://streamlit.app');}setTimeout(openApp,300);</script></body></html>
+          EOF
           cp *.jpg assets/icon.png || true
           npm init -y && npm i @capacitor/core @capacitor/cli @capacitor/android @capacitor/assets
           npx cap init "SmartStake" "com.tonybillaut.smartstake" --web-dir www
           npx cap add android
           npx capacitor-assets generate --android || true
-          cat << 'EOF' > capacitor.config.json
-          {"appId":"com.tonybillaut.smartstake","appName":"SmartStake","webDir":"www","server":{"url":"https://streamlit.app","cleartext":false,"allowNavigation":["*.streamlit.app"]},"android":{"overrideUserAgent":"Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Mobile Safari/537.36"}}
-          EOF
           npx cap sync android
           echo 'dependencies { implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.22")) }' >> android/app/build.gradle
           rm -f android/app/release.jks
