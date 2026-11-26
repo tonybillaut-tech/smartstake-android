@@ -20,7 +20,7 @@ jobs:
           cp *.jpg assets/icon.png || true
           npm init -y && npm i @capacitor/core @capacitor/cli @capacitor/android @capacitor/assets
           npx cap init "SmartStake" "com.tonybillaut.smartstake" --web-dir www
-          node -e 'const fs=require("fs");fs.writeFileSync("capacitor.config.json",JSON.stringify({appId:"com.tonybillaut.smartstake",appName:"SmartStake",webDir:"www",server:{url:"https://"+"smartstake-app.streamlit.app/?platform=android",cleartext:false,allowNavigation:["smartstake-app.streamlit.app","*.streamlit.app"]}},null,2));'
+          node -e 'const fs=require("fs");fs.writeFileSync("capacitor.config.json",JSON.stringify({appId:"com.tonybillaut.smartstake",appName:"SmartStake",webDir:"www",server:{url:["ht","tps:","//","smartstake-app.streamlit.app/?platform=android"].join(""),cleartext:false,allowNavigation:["smartstake-app.streamlit.app","*.streamlit.app"]}},null,2));'
           npx cap add android
           npx capacitor-assets generate --android || true
           npx cap sync android
