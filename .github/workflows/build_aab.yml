@@ -15,11 +15,23 @@ jobs:
       - run: |
           mkdir -p www assets
           cat << 'EOF' > www/index.html
-          <!DOCTYPE html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{margin:0;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#064e3b;color:#fff;font-family:sans-serif}button{background:#16a34a;color:#fff;border:none;padding:14px 28px;border-radius:12px;font-size:16px;font-weight:bold;margin-top:16px}</style></head><body><h2>⚽ SmartStake</h2><button onclick="openApp()">Lancer l'application</button><script>function openApp(){window.open('https://streamlit.app');}setTimeout(openApp,300);</script></body></html>
+          <!DOCTYPE html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{margin:0;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#064e3b;color:#fff;font-family:sans-serif}</style></head><body><h2>⚽ SmartStake</h2><p>Chargement sécurisé...</p></body></html>
           EOF
           cp *.jpg assets/icon.png || true
           npm init -y && npm i @capacitor/core @capacitor/cli @capacitor/android @capacitor/assets
           npx cap init "SmartStake" "com.tonybillaut.smartstake" --web-dir www
+          cat << 'EOF' > capacitor.config.json
+          {
+            "appId": "com.tonybillaut.smartstake",
+            "appName": "SmartStake",
+            "webDir": "www",
+            "server": {
+              "url": "https://streamlit.app",
+              "cleartext": false,
+              "allowNavigation": ["smartstake-app.streamlit.app", "*.streamlit.app"]
+            }
+          }
+          EOF
           npx cap add android
           npx capacitor-assets generate --android || true
           npx cap sync android
